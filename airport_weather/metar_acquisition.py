@@ -1,8 +1,12 @@
+import os
 
+aws_access_key_id = os.environ['SEB_AWS_ACCESS_KEY']
+aws_secret_access_key = os.environ['SEB_AWS_SECRET_KEY']
 
 ######### Getting data from API ########################################################################################
 from i2i.py2request.py2request import Py2Request
-
+import pandas as pd
+import xmltodict
 
 root_url = "https://www.aviationweather.gov/"
 base_url = root_url + "adds/dataserver_current/httpparam?dataSource=metars&requestType=retrieve&format=xml&"
@@ -13,7 +17,6 @@ raw_to_str = lambda r: r.content.decode()
 raw_to_raw = lambda r: r
 
 output_trans = raw_to_dict
-
 
 method_specs = {
     'get_recent_metar_data': {
@@ -31,13 +34,13 @@ gd = Py2Request(method_specs)
 ######### Persister ########################################################################################
 
 from py2store.stores.s3_store import S3BinaryStore
-import os
 import pickle
 
 s3_kwargs = dict(bucket_name='nextmetar',
-                 _prefix='test',
-                 resource_kwargs=dict(aws_access_key_id=os.environ['SEB_AWS_ACCESS_KEY'],
-                         aws_secret_access_key=os.environ['SEB_AWS_SECRET_KEY']))
+                 _prefix='',
+                 resource_kwargs=dict(aws_access_key_id=aws_access_key_id,
+                                      aws_secret_access_key=aws_secret_access_key))
+
 
 class S3PickleStore(S3BinaryStore):
     def _obj_of_data(self, data):
@@ -48,7 +51,6 @@ class S3PickleStore(S3BinaryStore):
 
 
 s = S3PickleStore(**s3_kwargs)
-
 
 ######### Getting data from API ########################################################################################
 import dateutil
@@ -88,6 +90,7 @@ def add_append_functionality_to_str_key_store(store_cls,
 
     return add_append_functionality_to_store_cls(store_cls, item_to_key, new_store_name)
 
+
 def item_to_key_params(item):
     obs_time = dateutil.parser.parse(item['observation_time'])
     return {'airport_id': item['station_id'].lower(),
@@ -96,11 +99,33 @@ def item_to_key_params(item):
             'day': obs_time.day,
             'hour': obs_time.hour}
 
+
 key_template = '{airport_id}/d/{year}/{month}/{day}/{hour}'
 
 MyStore = add_append_functionality_to_str_key_store(S3PickleStore,
                                                     item_to_key_params,
                                                     key_template=key_template)
 
+######### Acquiring a batch of data ###################################################################################
+DFLT_HOURS_BEFORE_NOW = 26
+DFLT_AIRPORT_IDS = tuple(['ksfo', 'kpao'])
 
 
+def acquire_metar_data(airport_ids=DFLT_AIRPORT_IDS, hours_before_now=DFLT_HOURS_BEFORE_NOW):
+    s = MyStore(**s3_kwargs)
+    for airport_id in airport_ids:
+        items = gd.get_recent_metar_data(airport_id, hours_before_now)
+        s.extend(items)
+
+
+if __name__ == '__main__':
+    acquire_metar_data()
+    # try:
+    #     import argh
+    #
+    #     argh.dispatch_command(acquire_metar_data)
+    #
+    # except ImportError:
+    #     print("You don't have argh: Pity")
+    #
+    #     acquire_metar_data()
