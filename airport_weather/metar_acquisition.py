@@ -1,7 +1,7 @@
 import os
 
 ######### Getting data from API ########################################################################################
-from i2i.py2request.py2request import Py2Request
+from py2misc.py2request.py2request import Py2Request
 import pandas as pd
 import xmltodict
 
@@ -13,7 +13,7 @@ raw_to_str = lambda r: r.content.decode()
 raw_to_dict = lambda r: xmltodict.parse(raw_to_str(r))['response']['data']['METAR']
 raw_to_df = lambda r: pd.DataFrame(raw_to_dict(r))
 
-output_trans = raw_to_dict
+output_trans = raw_to_dict  # enter here the function you want to use to process the raw output
 
 method_specs = {
     'get_recent_metar_data': {
@@ -31,18 +31,6 @@ gd = Py2Request(method_specs)
 ######### Persister ########################################################################################
 
 from py2store.stores.s3_store import S3PickleStore
-
-
-def correct_envvar(v):
-    if v.endswith('\r'):
-        return v[:-1]
-    else:
-        return v
-
-
-aws_access_key_id = correct_envvar(os.environ['SEB_AWS_ACCESS_KEY'])
-aws_secret_access_key = correct_envvar(os.environ['SEB_AWS_SECRET_KEY'])
-
 from py2store import user_configs, user_configs_filepath
 
 s3_kwargs = user_configs.get('s3_nextmetar_rw', None)
@@ -105,6 +93,6 @@ if __name__ == '__main__':
         argh.dispatch_command(_acquire_metar_data)
 
     except ImportError:
-        print("You don't have argh: Pity")
+        print("You don't have argh: Pity (you should really ")
 
         acquire_metar_data()
