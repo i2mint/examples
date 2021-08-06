@@ -6,7 +6,7 @@ This repository contains code that shows uses of i2i tools as well as some guida
 
 You may also find these useful:
 
-[Big list of our projects](https://github.com/i2mint/examples/blob/master/big_list_of_our_projects)
+[Big list of our projects](https://github.com/i2mint/examples/blob/master/big_list_of_our_projects.md)
 
 Below are two other lists, mostly taken from this big list:
 
