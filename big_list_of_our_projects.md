@@ -85,9 +85,7 @@ This one is used in many i2i projects:
 
 [dagapp](https://github.com/i2mint/dagapp): Making apps from DAGs by just snapping your fingers
 
-[py2dash](https://github.com/i2mint/py2dash): i2mint/py2dash
-
-Tools to produce dash (plot.ly) interfaces from existing python functionality
+[py2dash](https://github.com/i2mint/py2dash): Tools to produce dash (plot.ly) interfaces from existing python functionality
 
 
 
