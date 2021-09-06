@@ -130,9 +130,9 @@ This one is used in many i2i projects:
 
 ## unfinished
 
-[qo](https://github.com/i2mint/qo): Quick access to code favorites
+[qo](https://github.com/otosense/qo): Quick access to code favorites
 
-[ooq](https://github.com/i2mint/ooq): Quick access to code favorites
+[ooq](https://github.com/otosense/ooq): Quick access to code favorites
 
 [c2py](https://github.com/i2mint/c2py): Create python wrappers that call c functions (without the headaches).
 
