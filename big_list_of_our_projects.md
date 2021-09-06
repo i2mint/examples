@@ -49,6 +49,8 @@ This one is used in many i2i projects:
 
 [verb](https://github.com/i2mint/verb): Easy make mini-languages to do python things.
 
+[allude](https://github.com/i2mint/allude): Building precise functionality from vague specifications.
+
 
 
 ## Development tools
