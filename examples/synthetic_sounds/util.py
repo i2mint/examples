@@ -4,7 +4,7 @@ from sklearn.metrics import accuracy_score, recall_score, precision_score, f1_sc
 
 import numpy as np
 from hum import mk_sine_wf
-from typing import Iterable
+from collections.abc import Iterable
 
 DFLT_CHUNKER = mk_chunker
 DFLT_FEATURIZER = {"supervised": LdaChkToFv, "unsupervised": PcaChkToFv}
@@ -12,8 +12,7 @@ DFLT_SEEDS = "abcdefghijklmnopqrstuvwxyz"
 
 
 def chk_gen(wf, chunker=DFLT_CHUNKER):
-    for chk in chunker(wf):
-        yield chk
+    yield from chunker(wf)
 
 
 def wf_tag_gen(wfs, tags):

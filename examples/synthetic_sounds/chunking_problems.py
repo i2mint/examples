@@ -1,5 +1,5 @@
 import numpy as np
-from typing import Iterable
+from collections.abc import Iterable
 from examples.synthetic_sounds.outlier_problems import build_click_wf
 from examples.synthetic_sounds.util import frames_to_chks
 from hum import pure_tone

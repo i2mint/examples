@@ -7,7 +7,7 @@ from examples.synthetic_sounds.util import (
     chk_gen,
     DFLT_CHUNKER,
 )
-from typing import Iterable, Callable
+from collections.abc import Iterable, Callable
 from sklearn.decomposition import PCA
 from sklearn.svm import OneClassSVM
 

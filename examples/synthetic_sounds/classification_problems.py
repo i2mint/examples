@@ -1,4 +1,4 @@
-from typing import Iterable, Callable
+from collections.abc import Iterable, Callable
 import numpy as np
 from examples.synthetic_sounds.util import (
     seeds_to_wfs,

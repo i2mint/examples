@@ -486,8 +486,7 @@ def threshold_chunker(wfs_and_tags, chk_size=DFLT_CHK_SIZE, chk_step=DFLT_CHK_ST
     [3, 4]
     """
     for wf, tag in wfs_and_tags:
-        for chk in fixed_step_chunker(wf, chk_size, chk_step):
-            yield chk
+        yield from fixed_step_chunker(wf, chk_size, chk_step)
 
 
 def threshold_featurizer(chks):
