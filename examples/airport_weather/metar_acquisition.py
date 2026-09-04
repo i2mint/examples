@@ -75,24 +75,3 @@ import pandas as pd
 
 def get_all_data_as_df():
     return pd.DataFrame(store.values())
-
-
-if __name__ == '__main__':
-    try:
-        import argh
-
-        _acquire_metar_data = acquire_metar_data
-
-
-        def acquire_metar_data(airport_ids=DFLT_AIRPORT_IDS, hours_before_now=DFLT_HOURS_BEFORE_NOW):
-            airport_ids = airport_ids.split(',')
-            hours_before_now = int(hours_before_now)
-            return _acquire_metar_data(airport_ids, hours_before_now)
-
-
-        argh.dispatch_command(_acquire_metar_data)
-
-    except ImportError:
-        print("You don't have argh: Pity (you should really ")
-
-        acquire_metar_data()

@@ -51,7 +51,3 @@ def convert_images(source_dir, target_dir=None, source_ext='.heic', target_ext='
             target[target_k] = source[source_k]
         except BaseException as e:
             print(f"!!! Problem with {source_k}: {e}")
-
-if __name__ == '__main__':
-    import argh  # To install: pip install argh
-    argh.dispatch_command(convert_images)
